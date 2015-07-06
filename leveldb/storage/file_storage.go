@@ -60,26 +60,31 @@ type fileStorage struct {
 // path will fail.
 //
 // The storage must be closed after use, by calling Close method.
-func OpenFile(path string) (Storage, error) {
+func OpenFile(path string, readonly bool) (Storage, error) {
 	if err := os.MkdirAll(path, 0755); err != nil {
 		return nil, err
 	}
 
-	flock, err := newFileLock(filepath.Join(path, "LOCK"))
-	if err != nil {
-		return nil, err
-	}
-
-	defer func() {
+	var flock fileLock
+	var logw *os.File
+	if !readonly {
+		var err error
+		flock, err = newFileLock(filepath.Join(path, "LOCK"))
 		if err != nil {
-			flock.release()
+			return nil, err
 		}
-	}()
 
-	rename(filepath.Join(path, "LOG"), filepath.Join(path, "LOG.old"))
-	logw, err := os.OpenFile(filepath.Join(path, "LOG"), os.O_WRONLY|os.O_CREATE, 0644)
-	if err != nil {
-		return nil, err
+		defer func() {
+			if err != nil {
+				flock.release()
+			}
+		}()
+
+		rename(filepath.Join(path, "LOG"), filepath.Join(path, "LOG.old"))
+		logw, err = os.OpenFile(filepath.Join(path, "LOG"), os.O_WRONLY|os.O_CREATE, 0644)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	fs := &fileStorage{path: path, flock: flock, logw: logw}
