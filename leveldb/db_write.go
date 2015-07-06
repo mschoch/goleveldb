@@ -9,9 +9,9 @@ package leveldb
 import (
 	"time"
 
-	"github.com/syndtr/goleveldb/leveldb/memdb"
-	"github.com/syndtr/goleveldb/leveldb/opt"
-	"github.com/syndtr/goleveldb/leveldb/util"
+	"github.com/mschoch/goleveldb/leveldb/memdb"
+	"github.com/mschoch/goleveldb/leveldb/opt"
+	"github.com/mschoch/goleveldb/leveldb/util"
 )
 
 func (db *DB) writeJournal(b *Batch) error {

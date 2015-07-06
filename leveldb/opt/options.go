@@ -8,9 +8,9 @@
 package opt
 
 import (
-	"github.com/syndtr/goleveldb/leveldb/cache"
-	"github.com/syndtr/goleveldb/leveldb/comparer"
-	"github.com/syndtr/goleveldb/leveldb/filter"
+	"github.com/mschoch/goleveldb/leveldb/cache"
+	"github.com/mschoch/goleveldb/leveldb/comparer"
+	"github.com/mschoch/goleveldb/leveldb/filter"
 	"math"
 )
 

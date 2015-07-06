@@ -10,7 +10,7 @@ import (
 	"encoding/binary"
 	"fmt"
 
-	"github.com/syndtr/goleveldb/leveldb/errors"
+	"github.com/mschoch/goleveldb/leveldb/errors"
 )
 
 type ErrIkeyCorrupted struct {
